@@ -26,7 +26,7 @@ class Environment:
     def assign(self, name: str, value: Value, line: int) -> None:
         binding = self.lookup(name, line)
         if not binding.mutable:
-            raise SlopRuntimeError(line, f"cannot assign to immutable binding '{name}'")
+            raise SlopRuntimeError(line, f"cannot assign to loadbearing '{name}'")
         binding.value = value
 
     def lookup(self, name: str, line: int) -> Binding:

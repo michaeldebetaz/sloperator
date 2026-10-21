@@ -71,6 +71,31 @@ hallucinate(x)✨"""
     assert run(source) == "2\n"
 
 
+def test_loadbearing_can_be_read_and_shadowed():
+    source = """loadbearing LIMIT = 100✨
+slop score = 10✨
+score = score + 1✨
+{
+    slop LIMIT = 5✨
+    hallucinate(LIMIT)✨
+}
+hallucinate(LIMIT)✨
+hallucinate(score)✨"""
+    assert run(source) == "5\n100\n11\n"
+
+
+def test_loadbearing_cannot_be_assigned_from_inner_scope():
+    source = """loadbearing LIMIT = 100✨
+{
+    LIMIT = 200✨
+}"""
+    result = run_source(source)
+    assert result.stdout == ""
+    assert (
+        result.stderr == "SlopLang runtime error at line 3: cannot assign to loadbearing 'LIMIT'\n"
+    )
+
+
 def test_loop_body_is_a_fresh_scope_each_iteration():
     source = """slop i = 0✨
 ralph i < 3 {
