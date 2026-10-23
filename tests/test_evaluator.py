@@ -172,6 +172,27 @@ hallucinate(hallucinate)✨"""
     assert run(source) == "0\n-42\nstr\n✅\n❌\nnil\n<clanker f>\n<clanker hallucinate>\n"
 
 
+def test_hallucinate_with_no_arguments_prints_blank_line():
+    assert run("hallucinate()✨\nhallucinate()✨") == "\n\n"
+
+
+def test_hallucinate_joins_any_number_of_arguments_with_spaces():
+    source = """hallucinate(1)✨
+hallucinate(1, “two”, ✅, nothing())✨
+hallucinate(“a”, “b”, “c”, “d”, “e”)✨"""
+    assert run(f"clanker nothing() {{ }}\n{source}") == "1\n1 two ✅ nil\na b c d e\n"
+
+
+def test_hallucinate_arguments_are_evaluated_in_order():
+    source = """slop n = 0✨
+clanker next() {
+    n = n + 1✨
+    ship n✨
+}
+hallucinate(next(), next(), next())✨"""
+    assert run(source) == "1 2 3\n"
+
+
 def test_variation_selector_after_emoji_is_accepted():
     assert run("hallucinate(✅️)✨️\nhallucinate(❌️)✨️") == "✅\n❌\n"
 
