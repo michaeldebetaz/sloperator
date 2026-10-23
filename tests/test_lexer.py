@@ -43,6 +43,15 @@ def test_number_literal_is_an_int():
     assert tokenize("9001")[0] == Token(TokenType.NUMBER, "9001", 9001, 1)
 
 
+def test_line_numbers_are_correct_after_comments():
+    tokens = tokenize("— first\n— second\n✨\nx")
+    assert [(t.type, t.line) for t in tokens] == [
+        (TokenType.SPARKLES, 3),
+        (TokenType.IDENTIFIER, 4),
+        (TokenType.EOF, 4),
+    ]
+
+
 def test_hallucinate_is_an_identifier_not_a_keyword():
     assert tokenize("hallucinate")[0].type is TokenType.IDENTIFIER
 
