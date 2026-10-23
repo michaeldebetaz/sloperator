@@ -1,5 +1,12 @@
 {
   "$schema": "https://opencode.ai/config.json",
+  "compaction": {
+    "auto": true,
+    "keep": {
+      "tokens": 10000,
+    },
+    "buffer": 20000
+  },
   "model": "anthropic/claude-haiku-5-5",
   "permissions": [
     {
@@ -29,6 +36,8 @@
     },
   ],
   "watcher": {
-    "ignore": ["logs/**"],
+    "ignore": [
+      "logs/**"
+    ],
   },
 }
