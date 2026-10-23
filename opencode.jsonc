@@ -28,4 +28,7 @@
       "effect": "deny"
     },
   ],
+  "watcher": {
+    "ignore": ["logs/**"],
+  },
 }
