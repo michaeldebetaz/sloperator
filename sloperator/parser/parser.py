@@ -46,25 +46,27 @@ class Parser:
     def function_decl(self) -> FunctionDecl:
         name = self.expect(TokenType.IDENTIFIER, "expected a clanker name after 'clanker'")
         self.expect(TokenType.LEFT_PAREN, "expected '(' after clanker name")
-        params: list[Token] = []
+        params: tuple[Token, ...] = ()
         if not self.check(TokenType.RIGHT_PAREN):
-            params.append(self.expect(TokenType.IDENTIFIER, "expected a parameter name"))
-            while self.match(TokenType.COMMA):
-                params.append(
-                    self.expect(TokenType.IDENTIFIER, "expected a parameter name after ','")
-                )
+            params = self.parameters()
         self.expect(TokenType.RIGHT_PAREN, "expected ')' after parameters")
+
+        self.function_depth += 1
+        body = self.block("expected '{' before clanker body")
+        self.function_depth -= 1
+        return FunctionDecl(name, params, body)
+
+    def parameters(self) -> tuple[Token, ...]:
+        params: list[Token] = [self.expect(TokenType.IDENTIFIER, "expected a parameter name")]
+        while self.match(TokenType.COMMA):
+            params.append(self.expect(TokenType.IDENTIFIER, "expected a parameter name after ','"))
 
         seen: set[str] = set()
         for param in params:
             if param.lexeme in seen:
                 raise SlopSyntaxError(param.line, f"duplicate parameter name '{param.lexeme}'")
             seen.add(param.lexeme)
-
-        self.function_depth += 1
-        body = self.block("expected '{' before clanker body")
-        self.function_depth -= 1
-        return FunctionDecl(name, tuple(params), body)
+        return tuple(params)
 
     def declaration(self) -> Stmt:
         if self.match(TokenType.SLOP, TokenType.LOADBEARING):
@@ -175,9 +177,6 @@ class Parser:
 
     def factor(self) -> Expr:
         expr = self.unary()
-        return self.factor_tail(expr)
-
-    def factor_tail(self, expr: Expr) -> Expr:
         while self.match(TokenType.STAR, TokenType.SLASH):
             expr = Binary(expr, self.previous(), self.unary())
         return expr
@@ -191,14 +190,18 @@ class Parser:
         expr = self.primary()
         while self.match(TokenType.LEFT_PAREN):
             paren = self.previous()
-            arguments: list[Expr] = []
+            arguments: tuple[Expr, ...] = ()
             if not self.check(TokenType.RIGHT_PAREN):
-                arguments.append(self.expression())
-                while self.match(TokenType.COMMA):
-                    arguments.append(self.expression())
+                arguments = self.arguments()
             self.expect(TokenType.RIGHT_PAREN, "expected ')' after arguments")
-            expr = Call(expr, paren, tuple(arguments))
+            expr = Call(expr, paren, arguments)
         return expr
+
+    def arguments(self) -> tuple[Expr, ...]:
+        arguments: list[Expr] = [self.expression()]
+        while self.match(TokenType.COMMA):
+            arguments.append(self.expression())
+        return tuple(arguments)
 
     def primary(self) -> Expr:
         token = self.advance()
