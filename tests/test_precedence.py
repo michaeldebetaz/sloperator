@@ -35,16 +35,3 @@ def test_addition_keeps_multiplication_as_its_right_operand():
     assert isinstance(expression.left, Literal) and expression.left.value == 1
     assert isinstance(expression.right, Binary)
     assert expression.right.operator.type is TokenType.STAR
-
-
-@pytest.mark.parametrize(
-    ("expression", "expected"),
-    [
-        ("1 < 2 == ✅", "✅"),  # (1 < 2) == ✅
-        ("1 == 2 < 3", "❌"),  # 1 == (2 < 3)
-        ("3 > 2 == ✅", "✅"),
-        ("2 < 1 == ❌", "✅"),
-    ],
-)
-def test_comparison_binds_tighter_than_equality(expression: str, expected: str):
-    assert run(f"hallucinate({expression})✨") == f"{expected}\n"

@@ -21,7 +21,7 @@ Run all four from the repo root before considering a change done:
 
 ## Regression tests
 
-Add a regression test whenever you fix a bug or change language behavior. Put it in the existing `tests/test_<area>.py` that matches the change (for example, `test_lexer_regression.py` for lexer bugs). Use `uv run pytest -k name` to run a single test while iterating.
+Add a regression test whenever you fix a bug or change language behavior. Put it in the existing `tests/test_<area>.py` that matches the change (for example, `test_lexer_regression.py` for lexer bugs). Use `uv run pytest -k name` to run a single test while iterating. Comparison regression tests live in `tests/test_comparisons.py`; run them with `uv run pytest tests/test_comparisons.py`.
 
 ## Language behavior
 
