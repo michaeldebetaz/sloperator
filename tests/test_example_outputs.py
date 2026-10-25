@@ -9,7 +9,7 @@ from sloperator.runner import run_source
 EXAMPLES = Path(__file__).resolve().parent.parent / "examples"
 
 CASES = {
-    "equality.slop": "✅\n❌\n❌\n",
+    "equality.slop": "✅\n❌\n❌\n✅\n✅\n✅\n",
 }
 
 

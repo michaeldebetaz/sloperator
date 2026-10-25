@@ -25,7 +25,7 @@ For the example above: `feat: finished CH9: L2: Writing Skills`
 
 ## 2. Review the changes
 
-Run `git status` and `git diff` to see what the lesson changed. Stage only the files that belong to the lesson. Do not sweep in unrelated changes with `git add -A`. If you cannot tell which files belong to the lesson, ask before staging.
+Run `git status` to see every uncommitted file. Stage all of them with `git add -A` so the lesson lands in a single commit. Do not split changes into separate commits.
 
 ## 3. Commit
 
