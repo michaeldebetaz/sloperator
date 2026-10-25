@@ -131,7 +131,12 @@ class Interpreter:
                     f"operand of unary '-' must be a number, got {type_name(operand)}",
                 )
             return -operand
-        raise SlopRuntimeError(operator.line, "unary '!' is not implemented")
+        if not isinstance(operand, bool):
+            raise SlopRuntimeError(
+                operator.line,
+                f"operand of unary '!' must be a boolean, got {type_name(operand)}",
+            )
+        return not operand
 
     def logical(self, left_expr: Expr, operator: Token, right_expr: Expr) -> Value:
         left = self.evaluate(left_expr)
