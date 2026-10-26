@@ -66,19 +66,4 @@ def test_example_output(name: str):
 
 If the file already exists, add a new entry to `CASES` and keep the existing structure. Use the file name as the key and the full expected stdout as the value, with `\n` escapes written explicitly so the expected output is visible.
 
-## 5. Validate
-
-Run the new test first:
-
-```bash
-uv run pytest tests/test_example_outputs.py
-```
-
-Then run the full validation from the repo root:
-
-1. `uv run pytest`
-2. `uv run ruff format`, then `uv run ruff format --check`
-3. `uv run ruff check`
-4. `uv run ty check`
-
-Report which checks passed and which failed. Do not stage or commit the changes.
+Do not stage or commit the changes.

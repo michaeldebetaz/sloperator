@@ -10,6 +10,7 @@ EXAMPLES = Path(__file__).resolve().parent.parent / "examples"
 
 CASES = {
     "equality.slop": "✅\n❌\n❌\n✅\n✅\n✅\n",
+    "short-circuit.slop": "❌\n✅\n",
 }
 
 
