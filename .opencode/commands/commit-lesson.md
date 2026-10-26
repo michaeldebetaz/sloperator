@@ -1,11 +1,12 @@
 ---
-name: commit
-description: Create a git commit after a Boot.dev lesson submitted with `bootdev run -s` passes all checks, using the message format "feat: finished CH<chapter>: L<lesson>: <title>"
+description: Commit after a Boot.dev lesson passes `bootdev run -s`, using the message "feat: finished CH<chapter>: L<lesson>: <title>"
 ---
 
-# Commit
+# Commit lesson
 
-Use this skill only after `bootdev run -s <id>` has reported that the lesson passed. If the output shows any failed check, or the command errored, stop and report that. Do not commit.
+Use this command only after `bootdev run -s <id>` has reported that the lesson passed. If the `bootdev run` output is not in this conversation, stop and ask for it. If the output shows any failed check, or the command errored, stop and report that. Do not commit.
+
+Lesson ID, if provided: $ARGUMENTS
 
 ## 1. Read the lesson from the output
 
