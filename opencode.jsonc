@@ -61,6 +61,17 @@
         "url": "https://mcp.notion.com/mcp",
         "disabled": true,
       },
+      "playwright": {
+        "type": "local",
+        "command": [
+          "bunx",
+          "--bun",
+          "@playwright/mcp@0.0.80",
+          "--isolated",
+          "--browser",
+          "chromium",
+        ],
+      },
     },
   },
 }
