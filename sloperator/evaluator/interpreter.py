@@ -62,9 +62,13 @@ class Interpreter:
             case VarDecl(name, initializer, mutable):
                 value = self.evaluate(initializer)
                 self.environment.declare(name.lexeme, value, mutable, name.line)
-            case Assign(name, _, value_expr):
+            case Assign(name, operator, value_expr):
                 value = self.evaluate(value_expr)
-                self.environment.assign(name.lexeme, value, name.line)
+                if operator.type is TokenType.PLUS_EQUAL:
+                    binding = self.environment.mutable_binding(name.lexeme, name.line)
+                    binding.value = self.add(binding.value, value, operator)
+                else:
+                    self.environment.assign(name.lexeme, value, name.line)
             case ExprStmt(expression):
                 self.evaluate(expression)
             case If(condition, then_branch, else_branch):
